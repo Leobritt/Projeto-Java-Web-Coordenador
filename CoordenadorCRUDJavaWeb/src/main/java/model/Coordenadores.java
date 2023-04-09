@@ -1,6 +1,5 @@
-package model;
+	package model;
 
-import java.util.ArrayList;
 
 public class Coordenadores {
 
@@ -8,36 +7,36 @@ public class Coordenadores {
 
 	private String nome;
 
-	private ArrayList<Cursos> listaCursos;
+	private Cursos cursos;
 
-	private ArrayList<Periodos> listaPeriodos;
+	private Periodos periodos;
 
 	public Coordenadores() {
 		super();
 	}
 
-	public Coordenadores(Integer id, String nome, ArrayList<Cursos> listaCursos, ArrayList<Periodos> listaPeriodos) {
+	public Coordenadores(Integer id, String nome, Cursos cursos, Periodos periodos) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.listaCursos = listaCursos;
-		this.listaPeriodos = listaPeriodos;
+		this.cursos = cursos;
+		this.periodos = periodos;
 	}
 
-	public ArrayList<Cursos> getListaCursos() {
-		return listaCursos;
+	public Cursos getCursos() {
+		return cursos;
 	}
 
-	public void setListaCursos(ArrayList<Cursos> listaCursos) {
-		this.listaCursos = listaCursos;
+	public void setCursos(Cursos cursos) {
+		this.cursos = cursos;
 	}
 
-	public ArrayList<Periodos> getListaPeriodos() {
-		return listaPeriodos;
+	public Periodos getPeriodos() {
+		return periodos;
 	}
 
-	public void setListaPeriodos(ArrayList<Periodos> listaPeriodos) {
-		this.listaPeriodos = listaPeriodos;
+	public void setPeriodos(Periodos periodos) {
+		this.periodos = periodos;
 	}
 
 	public Integer getId() {
@@ -58,8 +57,8 @@ public class Coordenadores {
 
 	@Override
 	public String toString() {
-		return "Coordenadores [id=" + id + ", nome=" + nome + ", listaCursos=" + listaCursos + ", listaPeriodos="
-				+ listaPeriodos + "]";
+		return "Coordenadores [id=" + id + ", nome=" + nome + ", cursos=" + cursos + ", periodos=" + periodos + "]";
 	}
+
 
 }

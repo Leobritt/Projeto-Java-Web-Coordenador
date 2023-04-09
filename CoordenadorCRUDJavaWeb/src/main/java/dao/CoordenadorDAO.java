@@ -14,8 +14,8 @@ public class CoordenadorDAO {
 
 	public ArrayList<Coordenadores> listaCoordenadores() {
 		ArrayList<Coordenadores> listaCoordenadores = new ArrayList<>();
-		ArrayList<Cursos> listaCurso = new ArrayList<>();
-		ArrayList<Periodos> listaPeriodos = new ArrayList<>();
+		Cursos curso = new Cursos();
+		Periodos periodos = new Periodos();
 
 		String query = "SELECT c.id as idCoordenador, c.nome as NomeCoordenador, cu.id as idCurso, cu.nome as nomeCurso, cu.sigla as siglaCurso,p.id as idPeriodo, p.dia as diaPeriodo, p.horario as horarioPeriodo FROM coordenador c INNER JOIN cursos_coordenador cc on cc.id_coordenador = c.id INNER JOIN cursos cu on cu.id = cc.id_curso INNER JOIN periodos_coordenador pc on pc.id_coordenador = c.id INNER JOIN periodos p on p.id = pc.id_periodo;";
 
@@ -33,13 +33,11 @@ public class CoordenadorDAO {
 				String diaPeriodo = rs.getString("diaPeriodo");
 				String horarioPeriodo = rs.getString("horarioPeriodo");
 
-				listaCurso.add(new Cursos(idCurso, nomeCurso, siglaCurso));
-				listaPeriodos.add(new Periodos(idPeriodo, diaPeriodo, horarioPeriodo));
-
-				listaCoordenadores.add(new Coordenadores(idCoordenador, nomeCoordenador, listaCurso, listaPeriodos));
+				listaCoordenadores.add(
+						new Coordenadores(idCoordenador, nomeCoordenador, new Cursos(idCurso, nomeCurso, siglaCurso),
+								new Periodos(idPeriodo, diaPeriodo, horarioPeriodo)));
 
 			}
-			con.close();
 
 		} catch (Exception e) {
 			System.out.println(e);
@@ -47,4 +45,74 @@ public class CoordenadorDAO {
 		return listaCoordenadores;
 	}
 
+	public void inserirCoordenador(Coordenadores coord) {
+		String query = "INSERT INTO coordenador (nome) VALUES (?)";
+
+		try {
+			PreparedStatement pst = con.prepareStatement(query);
+
+			pst.setString(1, coord.getNome());
+
+			pst.executeUpdate();
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+	}
+
+	public void inserirCursoCoordenador(int idCoord, int idCurso) {
+		String query = "INSERT INTO cursos_coordenador (id_coordenador, id_curso) VALUES (?,?)";
+
+		try {
+			PreparedStatement pst = con.prepareStatement(query);
+
+			pst.setInt(1, idCoord);
+			pst.setInt(2, idCurso);
+
+			pst.executeUpdate();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+	}
+
+	public void inserirPeriodoCoordenador(int idCoord, int idPeriodo) {
+		String query = "INSERT INTO periodos_coordenador (id_periodo, id_coordenador) VALUES (?,?)";
+
+		try {
+			PreparedStatement pst = con.prepareStatement(query);
+
+			pst.setInt(2, idCoord);
+			pst.setInt(1, idPeriodo);
+
+			pst.executeUpdate();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+	}
+
+	public Coordenadores buscarCoordenadorPeloNome(String nome) {
+		String query = "SELECT * FROM coordenador WHERE nome = ?";
+		Coordenadores coord = new Coordenadores();
+
+		try {
+			PreparedStatement pst = con.prepareStatement(query);
+
+			pst.setString(1, nome);
+			ResultSet rs = pst.executeQuery();
+
+			while (rs.next()) {
+				String nomeCoordenador = rs.getString("nome");
+				Integer idCoord = rs.getInt("id");
+				coord.setNome(nomeCoordenador);
+				coord.setId(idCoord);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return coord;
+
+	}
 }

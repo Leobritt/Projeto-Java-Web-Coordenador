@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="model.Coordenadores"%>
+<%@ page import="java.util.ArrayList"%>
+<%
+ArrayList<Coordenadores> lista = (ArrayList<Coordenadores>) request.getAttribute("listCoordenador");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,16 +21,36 @@
 			<div>
 				<img src="/img/transferir-removebg-preview.png" alt="">
 			</div>
+			<table id="table">
+				<thead>
+					<tr>
+						<th>Coordenador Id</th>
+						<th>Coordenador Nome</th>
+						<th>Cursos</th>
+						<th>Horario de disponibiliade</th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<%
+					for (int i = 0; i < lista.size(); i++) {
+						String id = String.valueOf(lista.get(i).getId());
+					%>
+					<tr>
+						<td><%=String.valueOf(lista.get(i).getId())%></td>
+						<td><%=lista.get(i).getNome()%></td>
+						<td><%=lista.get(i).getCursos().getNome()%> (<%=lista.get(i).getCursos().getSigla()%>)</td>
+						<td><%=lista.get(i).getPeriodos().getDia()%> (<%=lista.get(i).getPeriodos().getHorario()%>)</td>
+						<td><a href="editar/<%=id%>">Editar</a></td>
+						<td><a href="deletar/<%=id%>">Deletar</a></td>
 
-			<form method="POST">
-				<input type="text" name="coordenador1" autofocus> <input
-					type="text" name="coordenador2" autofocus> <input
-					type="text" name="coordenador3" autofocus> <input
-					type="text" name="coordenador4" autofocus> <input
-					type="text" name="coordenador5" autofocus> <input
-					type="text" name="coordenador6" autofocus><br> <a
-					class="botao" href="listacoord.jsp">Cadastrar</a>
-			</form>
+					</tr>
+					<%
+					}
+					%>
+				</tbody>
+			</table>
 		</div>
 	</section>
 </body>
