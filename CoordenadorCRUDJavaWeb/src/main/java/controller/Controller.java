@@ -20,7 +20,7 @@ import model.Periodos;
 /**
  * Servlet implementation class Controller
  */
-@WebServlet(urlPatterns = { "/Controller", "/main", "/telaAddCoordenador", "/create" })
+@WebServlet(urlPatterns = { "/Controller", "/main", "/telaAddCoordenador", "/create", "/editar" })
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -28,6 +28,8 @@ public class Controller extends HttpServlet {
 	Coordenadores coor = new Coordenadores();
 	CursoDAO curDAO = new CursoDAO();
 	PeriodoDAO perDAO = new PeriodoDAO();
+	Cursos cursos = new Cursos();
+	Periodos per = new Periodos();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -38,6 +40,8 @@ public class Controller extends HttpServlet {
 			acessarListaCoordenador(request, response);
 		} else if (action.equals("/telaAddCoordenador")) {
 			addCoordenador(request, response);
+		} else if (action.equals("/editar")) {
+			editarCoordenador(request, response);
 		}
 	}
 
@@ -55,7 +59,7 @@ public class Controller extends HttpServlet {
 
 		coorDAO.inserirCursoCoordenador(coord.getId(), idCursos);
 		coorDAO.inserirPeriodoCoordenador(coord.getId(), idPeriodos);
-		
+
 		response.sendRedirect("/main");
 
 	}
@@ -79,4 +83,21 @@ public class Controller extends HttpServlet {
 		RequestDispatcher rd = request.getRequestDispatcher("cadastro.jsp");
 		rd.forward(request, response);
 	}
+
+	protected void editarCoordenador(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		Coordenadores coord = coorDAO.listaCoordenadoresPeloId(id);
+		
+		ArrayList<Cursos> listaCursos = curDAO.listaCurso();
+		ArrayList<Periodos> listaPeriodos = perDAO.listaPeriodos();
+		request.setAttribute("listaCursos", listaCursos);
+		request.setAttribute("listaPeriodos", listaPeriodos);
+		request.setAttribute("coordenador", coord);
+		
+		RequestDispatcher rd = request.getRequestDispatcher("updateCoor.jsp");
+		rd.forward(request, response);
+
+	}
+
 }

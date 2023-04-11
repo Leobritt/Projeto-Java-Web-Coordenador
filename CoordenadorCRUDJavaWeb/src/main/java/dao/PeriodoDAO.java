@@ -3,8 +3,11 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
+import model.Coordenadores;
+import model.Cursos;
 import model.Periodos;
 
 public class PeriodoDAO {
@@ -31,5 +34,21 @@ public class PeriodoDAO {
 			System.out.println(e);
 		}
 		return listaPeriodos;
+	}
+	public void alterarPeriodo(Coordenadores coord, Periodos per) {
+		String query = "UPDATE periodos_coordenador SET id_periodo = ? WHERE id_coordenador = ?";
+
+		try {
+			PreparedStatement pst = con.prepareStatement(query);
+
+			pst.setInt(1, per.getId());
+			pst.setInt(2, coord.getId());
+
+			pst.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 	}
 }
