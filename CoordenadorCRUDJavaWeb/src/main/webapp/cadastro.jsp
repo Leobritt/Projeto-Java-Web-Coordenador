@@ -58,5 +58,6 @@ ArrayList<Periodos> listaPeriodos = (ArrayList<Periodos>) request.getAttribute("
 			</form>
 		</div>
 	</section>
+	<script src="scripts/validador.js"></script>
 </body>
 </html>

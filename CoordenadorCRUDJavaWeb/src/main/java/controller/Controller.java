@@ -20,7 +20,7 @@ import model.Periodos;
 /**
  * Servlet implementation class Controller
  */
-@WebServlet(urlPatterns = { "/Controller", "/main", "/telaAddCoordenador", "/create", "/editar" })
+@WebServlet(urlPatterns = { "/Controller", "/main", "/telaAddCoordenador", "/create", "/editar", "/edite", "/deletar" })
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -41,7 +41,11 @@ public class Controller extends HttpServlet {
 		} else if (action.equals("/telaAddCoordenador")) {
 			addCoordenador(request, response);
 		} else if (action.equals("/editar")) {
+			telaEditarCoordenador(request, response);
+		} else if (action.equals("/edite")) {
 			editarCoordenador(request, response);
+		}else if(action.equals("/deletar")) {
+			removerCoordenador(request, response);
 		}
 	}
 
@@ -60,8 +64,8 @@ public class Controller extends HttpServlet {
 		coorDAO.inserirCursoCoordenador(coord.getId(), idCursos);
 		coorDAO.inserirPeriodoCoordenador(coord.getId(), idPeriodos);
 
-		response.sendRedirect("/main");
-
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+		rd.forward(request, response);
 	}
 
 	protected void acessarListaCoordenador(HttpServletRequest request, HttpServletResponse response)
@@ -84,20 +88,60 @@ public class Controller extends HttpServlet {
 		rd.forward(request, response);
 	}
 
-	protected void editarCoordenador(HttpServletRequest request, HttpServletResponse response)
+	protected void telaEditarCoordenador(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
 		Coordenadores coord = coorDAO.listaCoordenadoresPeloId(id);
-		
 		ArrayList<Cursos> listaCursos = curDAO.listaCurso();
 		ArrayList<Periodos> listaPeriodos = perDAO.listaPeriodos();
 		request.setAttribute("listaCursos", listaCursos);
 		request.setAttribute("listaPeriodos", listaPeriodos);
 		request.setAttribute("coordenador", coord);
-		
+
 		RequestDispatcher rd = request.getRequestDispatcher("updateCoor.jsp");
 		rd.forward(request, response);
 
 	}
 
+	protected void editarCoordenador(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Coordenadores coord = new Coordenadores();
+		Cursos cursos = new Cursos();
+		Periodos per = new Periodos();
+		// Teste de Recebimento
+		System.out.println(request.getParameter("id"));
+		// vindo null
+		System.out.println(request.getParameter("nome"));
+
+		coord.setId(Integer.parseInt(request.getParameter("id")));
+		// problema nessa linha, pois está vindo null
+		coord.setNome(request.getParameter("nome"));
+
+		Integer idCursoNovo = Integer.parseInt(request.getParameter("curso"));
+
+		Integer idPeriodoNovo = Integer.parseInt(request.getParameter("periodo"));
+
+		cursos.setId(idCursoNovo);
+		per.setId(idPeriodoNovo);
+
+		coorDAO.alterarCoordenador(coord);
+
+		curDAO.alterarCurso(coord, cursos);
+
+		perDAO.alterarPeriodo(coord, per);
+
+		response.sendRedirect("main");
+
+	}
+
+	protected void removerCoordenador(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Integer id = Integer.parseInt(request.getParameter("id"));
+		Coordenadores coord = new Coordenadores();
+		coord.setId(id);
+		coorDAO.deletarCoordenador(coord);
+		
+		response.sendRedirect("main");
+
+	}
 }

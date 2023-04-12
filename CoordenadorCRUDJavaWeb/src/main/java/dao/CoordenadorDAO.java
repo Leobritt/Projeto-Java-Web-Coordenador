@@ -15,8 +15,6 @@ public class CoordenadorDAO {
 
 	public ArrayList<Coordenadores> listaCoordenadores() {
 		ArrayList<Coordenadores> listaCoordenadores = new ArrayList<>();
-		Cursos curso = new Cursos();
-		Periodos periodos = new Periodos();
 
 		String query = "SELECT c.id as idCoordenador, c.nome as NomeCoordenador, cu.id as idCurso, cu.nome as nomeCurso, cu.sigla as siglaCurso,p.id as idPeriodo, p.dia as diaPeriodo, p.horario as horarioPeriodo FROM coordenador c INNER JOIN cursos_coordenador cc on cc.id_coordenador = c.id INNER JOIN cursos cu on cu.id = cc.id_curso INNER JOIN periodos_coordenador pc on pc.id_coordenador = c.id INNER JOIN periodos p on p.id = pc.id_periodo;";
 
@@ -133,11 +131,10 @@ public class CoordenadorDAO {
 		}
 
 	}
+
 	public Coordenadores listaCoordenadoresPeloId(int id) {
-		
+
 		Coordenadores coord = new Coordenadores();
-		Cursos curso = new Cursos();
-		Periodos periodos = new Periodos();
 
 		String query = "SELECT c.id as idCoordenador, c.nome as NomeCoordenador, cu.id as idCurso, cu.nome as nomeCurso, cu.sigla as siglaCurso,p.id as idPeriodo, p.dia as diaPeriodo, p.horario as horarioPeriodo FROM coordenador c INNER JOIN cursos_coordenador cc on cc.id_coordenador = c.id INNER JOIN cursos cu on cu.id = cc.id_curso INNER JOIN periodos_coordenador pc on pc.id_coordenador = c.id INNER JOIN periodos p on p.id = pc.id_periodo WHERE c.id = ?";
 
@@ -155,18 +152,30 @@ public class CoordenadorDAO {
 				Integer idPeriodo = rs.getInt("idPeriodo");
 				String diaPeriodo = rs.getString("diaPeriodo");
 				String horarioPeriodo = rs.getString("horarioPeriodo");
-				
+
 				coord.setCursos(new Cursos(idCurso, nomeCurso, siglaCurso));
 				coord.setPeriodos(new Periodos(idPeriodo, diaPeriodo, horarioPeriodo));
 				coord.setNome(nomeCoordenador);
 				coord.setId(idCoordenador);
-				
+
 			}
 
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 		return coord;
+	}
+	public void deletarCoordenador(Coordenadores coord) {
+		String query = "DELETE FROM coordenador WHERE id = ?";
+		
+		try {
+			PreparedStatement pst = con.prepareStatement(query);
+			pst.setInt(1, coord.getId());
+			
+			pst.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
