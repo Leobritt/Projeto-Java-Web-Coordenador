@@ -54,7 +54,7 @@ ArrayList<Periodos> listaPeriodos = (ArrayList<Periodos>) request.getAttribute("
 					<%
 					}
 					%>
-				</select> <button class="botao" type="submit">Cadastrar</button>
+				</select> <button class="botao" type="submit" onclick="validar()">Cadastrar</button>
 			</form>
 		</div>
 	</section>
