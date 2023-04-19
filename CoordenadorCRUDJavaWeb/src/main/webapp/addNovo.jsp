@@ -25,7 +25,7 @@ Cursos cur = (Cursos) request.getAttribute("curso");
 			<div>
 				<img src="/img/transferir-removebg-preview.png" alt="">
 			</div>
-			<h1>Caster piru pequeno</h1>
+			<h1>Adicionar novo coordenador</h1>
 			<form method="GET" action="addNovoContatoPeriodo" name="frmCoord">
 				<input type="text" name="nome"
 					placeholder="Informe o nome do coordenador" autofocus
@@ -57,7 +57,7 @@ Cursos cur = (Cursos) request.getAttribute("curso");
 					}
 					%>
 				</select>
-				<button class="botao" type="submit" onclick="validar()">Editar</button>
+				<button class="botao" type="submit" onclick="validar()">Adicionar</button>
 			</form>
 		</div>
 	</section>
