@@ -43,6 +43,7 @@ ArrayList<Coordenadores> lista = (ArrayList<Coordenadores>) request.getAttribute
 						<td><%=lista.get(i).getCursos().getNome()%> (<%=lista.get(i).getCursos().getSigla()%>)</td>
 						<td><%=lista.get(i).getPeriodos().getDia()%> (<%=lista.get(i).getPeriodos().getHorario()%>)</td>
 						<td><a href="editar?id=<%=id%>">Editar</a></td>
+						<td><a href="addnovo?id=<%=id%>">Adicionar Novo</a></td>
 						<td><a href="deletar?id=<%=id%>">Deletar</a></td>
 
 					</tr>

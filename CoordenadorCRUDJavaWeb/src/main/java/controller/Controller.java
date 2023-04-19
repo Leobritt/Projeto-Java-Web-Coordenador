@@ -20,7 +20,7 @@ import model.Periodos;
 /**
  * Servlet implementation class Controller
  */
-@WebServlet(urlPatterns = { "/Controller", "/main", "/telaAddCoordenador", "/create", "/editar", "/edite", "/deletar" })
+@WebServlet(urlPatterns = { "/Controller", "/main", "/telaAddCoordenador", "/create", "/editar", "/edite", "/deletar","/addnovo","/addNovoContatoPeriodo" })
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -46,6 +46,12 @@ public class Controller extends HttpServlet {
 			editarCoordenador(request, response);
 		}else if(action.equals("/deletar")) {
 			removerCoordenador(request, response);
+		}else if(action.equals("/addnovo")) {
+			telaAddCursoPeriodo(request, response);
+		}else if(action.equals("/addNovoContatoPeriodo")) {
+			addCursoPeriodo(request, response);
+		}else {
+			acessarListaCoordenador(request, response);
 		}
 	}
 
@@ -143,5 +149,45 @@ public class Controller extends HttpServlet {
 		
 		response.sendRedirect("main");
 
+	}
+	
+	protected void telaAddCursoPeriodo(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		Coordenadores coord = coorDAO.listaCoordenadoresPeloId(id);
+		ArrayList<Cursos> listaCursos = curDAO.listaCurso();
+		ArrayList<Periodos> listaPeriodos = perDAO.listaPeriodos();
+		request.setAttribute("listaCursos", listaCursos);
+		request.setAttribute("listaPeriodos", listaPeriodos);
+		request.setAttribute("coordenador", coord);
+
+		RequestDispatcher rd = request.getRequestDispatcher("addNovo.jsp");
+		rd.forward(request, response);
+
+	}
+	
+	protected void addCursoPeriodo(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Coordenadores coord = new Coordenadores();
+		Cursos cursos = new Cursos();
+		Periodos per = new Periodos();	
+		
+		coord.setId(Integer.parseInt(request.getParameter("id")));
+		
+		//TESTE RECEBIMENTO PARAMETRO
+		System.out.println(request.getParameter("id"));
+
+		Integer idOutroCurso = Integer.parseInt(request.getParameter("curso"));
+
+		Integer idOutroPeriodo = Integer.parseInt(request.getParameter("periodo"));
+		
+		cursos.setId(idOutroCurso);
+		per.setId(idOutroPeriodo);
+		
+		coorDAO.inserirCursoCoordenador(coord.getId(), cursos.getId());
+		coorDAO.inserirPeriodoCoordenador(coord.getId(),per.getId());
+		
+		RequestDispatcher rd = request.getRequestDispatcher("main");
+		rd.forward(request, response);
 	}
 }

@@ -25,8 +25,8 @@ Cursos cur = (Cursos) request.getAttribute("curso");
 			<div>
 				<img src="/img/transferir-removebg-preview.png" alt="">
 			</div>
-			<h1>Editar Coordenador</h1>
-			<form method="GET" action="edite" name="frmCoord">
+			<h1>Caster piru pequeno</h1>
+			<form method="GET" action="addNovoContatoPeriodo" name="frmCoord">
 				<input type="text" name="nome"
 					placeholder="Informe o nome do coordenador" autofocus
 					value="<%=coord.getNome()%>"> <input type="hidden"
