@@ -1,6 +1,3 @@
-create database
-  IF NOT EXISTS tedweb;
-
 create table
   IF NOT EXISTS coordenador(id serial PRIMARY KEY, nome varchar(60));
 
@@ -22,23 +19,23 @@ create table
   IF NOT EXISTS cursos_coordenador(
     id_coordenador int,
     id_curso int,
-    CONSTRAINT fk_coordenador_cursos FOREIGN KEY(id_coordenador) REFERENCES coordenador(id),
-    CONSTRAINT fk_cursos_coordenador FOREIGN KEY(id_curso) REFERENCES cursos(id)
+    CONSTRAINT fk_coordenador_cursos FOREIGN KEY(id_coordenador) REFERENCES coordenador(id) ON DELETE CASCADE,
+    CONSTRAINT fk_cursos_coordenador FOREIGN KEY(id_curso) REFERENCES cursos(id) ON DELETE CASCADE
   );
 
 create table
   IF NOT EXISTS periodos_coordenador(
     id_coordenador int,
     id_periodo int,
-    CONSTRAINT fk_coordenador_periodos FOREIGN KEY(id_coordenador) REFERENCES coordenador(id),
-    CONSTRAINT fk_periodos_coordenador FOREIGN KEY(id_periodo) REFERENCES periodos(id)
+    CONSTRAINT fk_coordenador_periodos FOREIGN KEY(id_coordenador) REFERENCES coordenador(id) ON DELETE CASCADE,
+    CONSTRAINT fk_periodos_coordenador FOREIGN KEY(id_periodo) REFERENCES periodos(id) ON DELETE CASCADE
   );
 
 INSERT INTO
   cursos(id, nome, sigla)
 values
   (1, 'Engenharia de Software', 'BES'),
-  (2, 'Medicina', 'MED')
+  (2, 'Medicina', 'MED'),
   (3, 'Análise e Dessenvolvimento de Sistemas', 'ADS'),
   (4, 'Direito', 'DIR'),
   (5, 'Nutrição', 'NUTRI'),
@@ -46,12 +43,9 @@ values
   (7, 'Engenharia Elétrica', 'ENG.ELE'),
   (8, 'Engenharia Mecânica', 'ENG.MEC'),
   (9, 'Matemática', 'MAT'),
-  (8, 'Física', 'FIS'),
-  (9, 'Bio Medicina', 'BIO MED'),
-  (10, 'Educação Física', 'ED.FIS'),
-
-
-  ;
+  (10, 'Física', 'FIS'),
+  (11, 'Bio Medicina', 'BIO MED'),
+  (12, 'Educação Física', 'ED.FIS');
 
 INSERT INTO
   periodos(id, dia, horario)
@@ -85,10 +79,7 @@ values
   (21, 'Sabado', '7:00-8:15'),
   (22, 'Sabado', '8:25-9:40'),
   (23, 'Sabado', '9:50-11:05'),
-  (24, 'Sabado', '11:15-12:30'),
-  
-  ;
-
+  (24, 'Sabado', '11:15-12:30');
 
 SELECT
   c.id as idCoordenador,

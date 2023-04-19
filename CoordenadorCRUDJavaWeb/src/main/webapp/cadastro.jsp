@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,5 +60,7 @@ ArrayList<Periodos> listaPeriodos = (ArrayList<Periodos>) request.getAttribute("
 		</div>
 	</section>
 	<script src="scripts/validador.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 </body>
 </html>

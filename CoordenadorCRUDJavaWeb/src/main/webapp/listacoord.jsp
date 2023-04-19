@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="model.Coordenadores"%>
 <%@ page import="java.util.ArrayList"%>
+
+
 <%
 ArrayList<Coordenadores> lista = (ArrayList<Coordenadores>) request.getAttribute("listCoordenador");
 %>

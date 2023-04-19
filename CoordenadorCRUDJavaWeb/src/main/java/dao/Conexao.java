@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 public class Conexao {
 	private String url = "jdbc:postgresql://localhost:5432/tedweb";
 	private String usuario = "postgres";
-	private String senha = "123";
+	private String senha = "postgres";
 	private Connection con;
 
 	public Connection conectar() {
